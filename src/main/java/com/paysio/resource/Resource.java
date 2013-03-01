@@ -1,13 +1,10 @@
 package com.paysio.resource;
 
-import java.beans.BeanInfo;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
+import com.paysio.exception.PaysioRuntimeException;
 import com.paysio.rest.Response;
+import com.paysio.util.BeanUtils;
 
 public abstract class Resource {
 
@@ -15,7 +12,7 @@ public abstract class Resource {
     private Response response;
     private Long created;
     private Boolean livemode;
-    
+
     public String getId() {
         return id;
     }
@@ -33,32 +30,12 @@ public abstract class Resource {
     }
 
     protected void copyProperties(Resource res) {
-        Class<? extends Resource> clazz = res.getClass();
-
-        if (this.getClass() != clazz) {
-            throw new RuntimeException("Incompartible types!");
-        }
-
         try {
-            BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
-
-            PropertyDescriptor[] toPd = beanInfo.getPropertyDescriptors();
-            for (PropertyDescriptor propertyDescriptor : toPd) {
-                if (propertyDescriptor.getWriteMethod() != null) {
-                    Method setter = propertyDescriptor.getWriteMethod();
-                    Method getter = propertyDescriptor.getReadMethod();
-                    setter.invoke(this, getter.invoke(res, (Object[]) null));
-                }
-
-            }
-        } catch (IntrospectionException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException(e);
+            BeanUtils.copyProperties(this, res);
         } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
+            throw new PaysioRuntimeException(e);
         } catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
+            throw new PaysioRuntimeException(e);
         }
     }
 
