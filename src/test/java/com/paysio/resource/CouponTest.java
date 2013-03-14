@@ -20,6 +20,7 @@ public class CouponTest {
 
     private HashMap<String, Object> getCreateParams() {
         HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("ip", "127.0.0.1");
         params.put("code", UUID.randomUUID().toString());
         params.put("percent_off", COUPON_PERCENT_OFF);
         return params;

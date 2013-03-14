@@ -2,6 +2,7 @@ package com.paysio.rest;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,6 +70,13 @@ public class RestClient<R extends Resource, L extends ResourceList<? extends Res
         Map<String, Object> headers = new HashMap<String, Object>();
         if (params != null && params.get("ip") != null) {
             headers.put("X-Real-IP", params.get("ip"));
+        } else {
+            List<ParameterError> errParams = new ArrayList<ParameterError>(1);
+            ParameterError err = new ParameterError();
+            err.setName("ip");
+            err.setMessage("Parameter 'ip' is necessary for create method.");
+            errParams.add(err);
+            throw new BadRequestException(err.getMessage(), errParams);
         }
         return processResponse(httpMethodExecutor.post(resourceUrl.getURL(), toQueryString(params), headers));
     }
