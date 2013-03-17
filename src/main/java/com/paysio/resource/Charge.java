@@ -1,10 +1,13 @@
 package com.paysio.resource;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.paysio.exception.BadRequestException;
 import com.paysio.exception.PaysioException;
 import com.paysio.resource.meta.ResourceConfig;
+import com.paysio.rest.ParameterError;
 import com.paysio.rest.RestClient;
 
 @ResourceConfig(url = "/v1/charges")
@@ -223,6 +226,14 @@ public class Charge extends Resource {
     }
     
     public static Charge create(Map<String, Object> params) throws PaysioException {
+        if (params == null || params.get("ip") == null) {
+            List<ParameterError> errParams = new ArrayList<ParameterError>(1);
+            ParameterError err = new ParameterError();
+            err.setName("ip");
+            err.setMessage("Parameter 'ip' is necessary for Charge.create method.");
+            errParams.add(err);
+            throw new BadRequestException(err.getMessage(), errParams);
+        }
         return client.create(params);
     }
 

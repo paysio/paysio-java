@@ -22,7 +22,6 @@ public class CustomerTest {
 
     private static HashMap<String, Object> getCreateParams() {
         HashMap<String, Object> params = new HashMap<String, Object>();
-        params.put("ip", "127.0.0.1");
         params.put("email", CUSTOMER_EMAIL);
         params.put("description", CUSTOMER_DESCRIPTION);
         return params;

@@ -10,6 +10,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import com.paysio.Paysio;
+import com.paysio.exception.BadRequestException;
 import com.paysio.exception.PaysioException;
 import com.paysio.resource.Charge;
 
@@ -35,6 +36,13 @@ public class ChargeTest {
         assertNotNull(charge);
         assertNotNull(charge.getId());
         assertEquals(new Long(100), charge.getAmount());
+    }
+
+    @Test(expected=BadRequestException.class)
+    public void testCreateWithoutIP() throws PaysioException {
+        Map<String, Object> createParams = getCreateParams();
+        createParams.remove("ip");
+        Charge.create(createParams);
     }
 
     @Test

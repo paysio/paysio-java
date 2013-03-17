@@ -22,7 +22,6 @@ public class RewardTest {
 
     private static HashMap<String, Object> getCreateParams() {
         HashMap<String, Object> params = new HashMap<String, Object>();
-        params.put("ip", "127.0.0.1");
         params.put("title", REWARD_TITLE);
         params.put("percent_off", REWARD_PERCENT_OFF);
         params.put("payment_amount", REWARD_PAYMENT_AMOUNT);
