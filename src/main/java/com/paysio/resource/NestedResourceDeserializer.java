@@ -19,6 +19,7 @@ public class NestedResourceDeserializer implements JsonDeserializer<NestedResour
         objectMap.put("customer", Customer.class);
         objectMap.put("reward", Reward.class);
         objectMap.put("wallet", Wallet.class);
+        objectMap.put("payout", Payout.class);
     }
     
 	public NestedResource deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
